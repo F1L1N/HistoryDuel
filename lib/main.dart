@@ -7,8 +7,8 @@ class MainScreen extends StatelessWidget {
   final sizeTextBlack = const TextStyle(fontSize: 20.0, color: Colors.black);
 
   MainScreen(String email, String password) {
-    email = email;
-    password = password;
+    this.email = email;
+    this.password = password;
   }
 
   @override
