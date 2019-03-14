@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:history_duel/main.dart';
+import 'package:history_duel/userInterface/main.dart';
 
 class AuthScreen extends StatefulWidget {
   @override

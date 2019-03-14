@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:history_duel/splash.dart';
+import 'package:history_duel/userInterface/splash.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

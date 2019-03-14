@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:history_duel/auth.dart';
+import 'package:history_duel/userInterface/auth.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(LaunchScreen());
