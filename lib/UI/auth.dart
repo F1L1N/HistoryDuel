@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:history_duel/userInterface/main.dart';
+import 'package:history_duel/UI/main.dart';
+import 'package:history_duel/UI/reg.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -51,6 +52,22 @@ class AuthScreenState extends State<AuthScreen> {
                     width: 300.0,
                     padding: new EdgeInsets.only(top: 10.0),
                   ),
+                  new Container(
+                    child: new GestureDetector(
+                      onTap: (){
+                        navigateRegistration();
+                      },
+                      child: Text(
+                        "Registration",
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontSize: 20,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ),
+                    padding: new EdgeInsets.only(top: 15.0),
+                  ),
                   new Padding(
                     padding: new EdgeInsets.only(top: 25.0),
                     child: new MaterialButton(
@@ -79,12 +96,19 @@ class AuthScreenState extends State<AuthScreen> {
     }
   }
 
+  void navigateRegistration(){
+    Navigator.push(
+        _context,
+        new MaterialPageRoute(
+            builder: (context) => new RegistrationScreen()));
+  }
+
   void performLogin() {
     hideKeyboard();
     Navigator.push(
         _context,
         new MaterialPageRoute(
-          builder: (context) => new MainScreen(email, password)));
+          builder: (context) => new MainScreen()));
           //builder: (context) => new MyApp()));
   }
 

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
   String email;
-  String password;
+  String login;
   final sizeTextBlack = const TextStyle(fontSize: 20.0, color: Colors.black);
 
-  MainScreen(String email, String password) {
-    this.email = email;
-    this.password = password;
+  MainScreen() {
+    //this.email = email;
+    //this.login = login;
   }
 
   @override
@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
         ),
         body: new Center(
           child: new Text(
-            "Email: $email, password: $password",
+            "Email: $email, password: $login",
             style: sizeTextBlack,
           ),
         ));

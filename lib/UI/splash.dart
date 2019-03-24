@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:history_duel/userInterface/auth.dart';
+import 'package:history_duel/UI/auth.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(LaunchScreen());
@@ -17,7 +17,7 @@ class LaunchScreenState extends State<LaunchScreen> {
             body: new Center(
                 child: new Container(
                   child: new SplashScreen(
-                      seconds: 11,
+                      seconds: 3,
                       navigateAfterSeconds: new AuthScreen(),
                       image: Image.asset('asset/image/logo.jpg'),
                       backgroundColor: Colors.white,
