@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:history_duel/UI/main.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:history_duel/model/registration.dart';
+import 'package:history_duel/model/post/registration.dart';
 import 'package:history_duel/model/tokens.dart';
 
 class RegistrationScreen extends StatefulWidget {

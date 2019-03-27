@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:history_duel/model/profile.dart';
 
 // ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
-  String email;
-  String login;
+  Profile profile;
   final sizeTextBlack = const TextStyle(fontSize: 20.0, color: Colors.black);
 
   MainScreen() {
@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
         ),
         body: new Center(
           child: new Text(
-            "Email: $email, password: $login",
+            "Email: $profile",
             style: sizeTextBlack,
           ),
         ));
