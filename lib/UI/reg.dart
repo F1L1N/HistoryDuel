@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:history_duel/UI/main.dart';
+import 'package:history_duel/model/profile.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:history_duel/model/post/registration.dart';
@@ -114,7 +115,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new MainScreen()));
+            builder: (context) => new MainScreen(new Profile())));
   }
 
   Future<Tokens> createPost({Map body}) async {

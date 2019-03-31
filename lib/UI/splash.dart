@@ -17,7 +17,7 @@ class LaunchScreenState extends State<LaunchScreen> {
             body: new Center(
                 child: new Container(
                   child: new SplashScreen(
-                      seconds: 3,
+                      seconds: 1,
                       navigateAfterSeconds: new AuthScreen(),
                       image: Image.asset('asset/image/logo.jpg'),
                       backgroundColor: Colors.white,

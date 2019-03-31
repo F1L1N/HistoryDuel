@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:history_duel/UI/main.dart';
 import 'package:history_duel/UI/reg.dart';
+import 'package:history_duel/model/post/access.dart';
+import 'package:history_duel/model/post/refresh.dart';
 import 'package:history_duel/model/post/authentification.dart';
 import 'package:history_duel/model/profile.dart';
 import 'package:history_duel/model/tokens.dart';
@@ -20,8 +22,12 @@ class AuthScreen extends StatefulWidget {
 class AuthScreenState extends State<AuthScreen> {
   String email;
   String password;
-  bool isLoggedIn;
-  var url = "";
+  String accessToken;
+  String refreshToken;
+  SharedPreferences sharedPreferences;
+  int tries = 0;
+  int maxTries = 5;
+  var url = "http://hisduel.000webhostapp.com/authentication.php";
   final sizeTextBlack = const TextStyle(fontSize: 20.0, color: Colors.black);
   final sizeTextWhite = const TextStyle(fontSize: 20.0, color: Colors.white);
   TextEditingController loginController = new TextEditingController();
@@ -67,10 +73,10 @@ class AuthScreenState extends State<AuthScreen> {
                   new Container(
                     child: new GestureDetector(
                       onTap: (){
-                        navigateMain();
+                        navigateReg();
                       },
                       child: Text(
-                        "Login",
+                        "Sign up",
                         style: TextStyle(
                           decoration: TextDecoration.underline,
                           fontSize: 20,
@@ -101,12 +107,11 @@ class AuthScreenState extends State<AuthScreen> {
   }
 
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => auth());
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => auth(context));
   }
 
-  Future<Profile> createProfilePost({Map body}) async {
+  Future<Profile> getProfilePost({Map body}) async {
     final response = await http.post(url,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
@@ -120,7 +125,21 @@ class AuthScreenState extends State<AuthScreen> {
     return Profile.fromJson(json.decode(response.body));
   }
 
-  Future<Tokens> createAuthPost({Map body}) async {
+  Future<String> getAccessPost({Map body}) async {
+    final response = await http.post(url,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
+        },
+        body: body
+    );
+    final int statusCode = response.statusCode;
+    if (statusCode < 200 || statusCode > 400 || json == null) {
+      throw new Exception("Error while fetching data");
+    }
+    return json.decode(response.body);
+  }
+
+  Future<Tokens> runAuthPost({Map body}) async {
     final response = await http.post(url,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
@@ -134,40 +153,53 @@ class AuthScreenState extends State<AuthScreen> {
     return Tokens.fromJson(json.decode(response.body));
   }
 
-  Future auth(BuildContext context) async {
+  Future auth() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.get("access") != null)
-    {
-      url = "http://hisduel.000webhostapp.com/access.php";
+    accessToken = prefs.getString("access");
+    if (accessToken != null) {
+      AccessPost newPost = new AccessPost(accessToken);
+      Profile profile = await getProfilePost(body: newPost.toMap());
+      navigateMain(profile);
     }
-    else
-    {
-      if (prefs.get("refresh") != null)
-      {
-        url = "http://hisduel.000webhostapp.com/refresh.php";
-      }
-      else
-      {
-        url = "http://hisduel.000webhostapp.com/authentication.php";
-        AuthenticationPost newPost = new AuthenticationPost(
-            login: loginController.text, password: passwordController.text);
-        Tokens tokens = await createAuthPost(body: newPost.toMap());
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("access", tokens.accessToken);
-        prefs.setString("refresh", tokens.refreshToken);
+    else {
+      refreshToken = prefs.getString("refresh");
+      if (refreshToken != null) {
+          RefreshPost newPost = new RefreshPost(refresh: refreshToken);
+          accessToken = await getAccessPost(body: newPost.toMap());
+          prefs.setString("access", accessToken);
+          if (tries <= maxTries) {
+            tries++;
+            auth();
+          }
+          else {
+            throw new Exception("Error server returning data");
+          }
       }
     }
-    navigateMain();
   }
 
-  void submit() {
-
+  Future submit() async {
+      email = loginController.text;
+      password = passwordController.text;
+      AuthenticationPost newPost = new AuthenticationPost(login: email, password: password);
+      Tokens tokens = await runAuthPost(body: newPost.toMap());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("access", tokens.accessToken);
+      prefs.setString("refresh", tokens.refreshToken);
+      auth();
   }
 
-  void navigateMain(){
+  void navigateMain(Profile profile){
     Navigator.push(
         _context,
         new MaterialPageRoute(
-            builder: (context) => new MainScreen()));
+            builder: (context) => new MainScreen(profile)));
+  }
+
+  void navigateReg(){
+    Navigator.push(
+        _context,
+        new MaterialPageRoute(
+            builder: (context) => new RegistrationScreen()));
   }
 }
