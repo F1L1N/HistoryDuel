@@ -16,14 +16,14 @@ import 'package:history_duel/utils/bubble_indication_painter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  LoginScreen({Key key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  LoginScreenState createState() => new LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage>
+class LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
 
   String regUrl = "http://hisduel.000webhostapp.com/registration.php";
@@ -50,8 +50,7 @@ class _LoginPageState extends State<LoginPage>
   TextEditingController signupEmailController = new TextEditingController();
   TextEditingController signupNameController = new TextEditingController();
   TextEditingController signupPasswordController = new TextEditingController();
-  TextEditingController signupConfirmPasswordController =
-      new TextEditingController();
+  TextEditingController signupConfirmPasswordController = new TextEditingController();
 
   PageController _pageController;
 

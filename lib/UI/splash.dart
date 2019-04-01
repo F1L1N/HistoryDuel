@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:history_duel/UI/auth.dart';
-import 'package:history_duel/UI/login_page.dart';
+import 'package:history_duel/UI/login.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() => runApp(LaunchScreen());
@@ -19,7 +18,7 @@ class LaunchScreenState extends State<LaunchScreen> {
                 child: new Container(
                   child: new SplashScreen(
                       seconds: 1,
-                      navigateAfterSeconds: new LoginPage(),
+                      navigateAfterSeconds: new LoginScreen(),
                       image: Image.asset('assets/image/logo.jpg'),
                       backgroundColor: Colors.white,
                       styleTextUnderTheLoader: new TextStyle(),
