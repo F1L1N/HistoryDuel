@@ -22,6 +22,7 @@ dependencies:
   http: ^0.12.0
   splashscreen: ^1.2.0
   shared_preferences: 0.5.1+2
+  font_awesome_flutter: ^8.4.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -48,7 +49,7 @@ flutter:
   #  - images/a_dot_ham.jpeg
 
   assets:
-  - asset/image/logo.jpg
+  - assets/image/logo.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
@@ -75,3 +76,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+  fonts:
+  - family: WorkSansSemiBold
+    fonts:
+    - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
+
+  - family: WorkSansBold
+    fonts:
+    - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
+
+  - family: WorkSansMedium
+    fonts:
+    - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf
