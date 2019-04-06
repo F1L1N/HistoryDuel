@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class GameScreen extends StatelessWidget {
-  int playerId;
-  int opponentId;
+  String playerId;
+  String opponentId;
 
-  GameScreen(int playerId, int opponentId) {
+  GameScreen(String playerId, String opponentId) {
     this.playerId = playerId;
     this.opponentId = opponentId;
   }
@@ -12,7 +12,7 @@ class GameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',  
+      title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -25,7 +25,7 @@ class GameScreen extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Первый игрок: ' + playerId.toString() + ', второй игрок: ' + opponentId.toString()),
+      home: MyHomePage(title: 'Первый игрок: ' + playerId + ', второй игрок: ' + opponentId),
     );
   }
 }

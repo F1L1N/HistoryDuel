@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:history_duel/UI/game.dart';
 import 'package:history_duel/model/post/opponentId.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:history_duel/model/profile.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
 
 // ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
@@ -48,7 +48,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Future<int> getOpponentIdPost({Map body}) async {
+  Future<String> getOpponentIdPost({Map body}) async {
     final response = await http.post(url,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
@@ -63,13 +63,12 @@ class MainScreen extends StatelessWidget {
   }
 
   Future matchmaking() async {
-    int id = int.parse(this.id);
-    OpponentIdPost newPost = new OpponentIdPost(id);
-    int opponentId = await getOpponentIdPost(body: newPost.toMap());
+    OpponentIdPost newPost = new OpponentIdPost(this.id);
+    String opponentId = await getOpponentIdPost(body: newPost.toMap());
     navigateGame(id, opponentId);
   }
 
-  void navigateGame(int playerId, int opponentId){
+  void navigateGame(String playerId, String opponentId){
     Navigator.push(
         context,
         new MaterialPageRoute(

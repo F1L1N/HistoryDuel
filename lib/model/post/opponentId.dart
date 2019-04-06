@@ -1,6 +1,6 @@
 class OpponentIdPost {
-  final int playerId;
-  int opponentId;
+  final String playerId;
+  String opponentId;
 
   OpponentIdPost(this.playerId);
 
