@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:history_duel/UI/game.dart';
 import 'package:history_duel/model/post/opponentId.dart';
+import 'package:dio/dio.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:history_duel/model/profile.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +17,16 @@ class MainScreen extends StatelessWidget {
   String regEmail;
   String email;
   String regDate;
-  String url = "http://hisduel.000webhostapp.com/matchmaker.php";
+  static String url = "http://hisduel.000webhostapp.com/matchmaker.php";
+  static BaseOptions options = new BaseOptions(
+    baseUrl: url,
+    connectTimeout: 5000,
+    receiveTimeout: 3000,
+  );
+  Dio dio = new Dio(options);
+
+// Set default configs
+
   final sizeTextBlack = const TextStyle(fontSize: 20.0, color: Colors.black);
   BuildContext context;
 
@@ -49,11 +60,19 @@ class MainScreen extends StatelessWidget {
   }
 
   Future<String> getOpponentIdPost({Map body}) async {
+    /*try {
+      Response response;
+      response = await dio.post(url, data: body);
+      print(response);
+    } catch (e) {
+      print(e);
+    }*/
     final response = await http.post(url,
         headers: {
-          HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
+          //HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
+          HttpHeaders.contentTypeHeader: 'application/json'
         },
-        body: body
+        body: json.encode(body)
     );
     final int statusCode = response.statusCode;
     if (statusCode < 200 || statusCode > 400 || json == null) {
