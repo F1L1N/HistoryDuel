@@ -15,6 +15,7 @@ class Profile {
       email: json['email'],
       registrationDate: json['regDate'],
     );
+    
   }
 
   Map toMap() {
