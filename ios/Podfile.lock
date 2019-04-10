@@ -1,0 +1,35 @@
+PODS:
+  - Flutter (1.0.0)
+  - GoogleWebRTC (1.1.27442)
+  - shared_preferences (0.0.1):
+    - Flutter
+  - webrtc_data_channel (0.0.1):
+    - Flutter
+    - GoogleWebRTC (>= 1.1.22642)
+
+DEPENDENCIES:
+  - Flutter (from `.symlinks/flutter/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - webrtc_data_channel (from `.symlinks/plugins/webrtc_data_channel/ios`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - GoogleWebRTC
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: ".symlinks/flutter/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
+  webrtc_data_channel:
+    :path: ".symlinks/plugins/webrtc_data_channel/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  GoogleWebRTC: 2f1531d8d34bb81ede1d19363b92caae5dbb3b45
+  shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  webrtc_data_channel: c926aef437c300268f14425355cba4dd73c46fd2
+
+PODFILE CHECKSUM: aff02bfeed411c636180d6812254b2daeea14d09
+
+COCOAPODS: 1.6.1
