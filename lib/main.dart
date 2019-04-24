@@ -59,7 +59,6 @@ class MainScreen extends StatelessWidget {
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
         },
-        //body: json.encode(body)
         body: body
     );
     final int statusCode = response.statusCode;

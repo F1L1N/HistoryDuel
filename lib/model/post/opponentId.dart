@@ -6,7 +6,7 @@ class OpponentIdPost {
 
   Map toMap() {
     var map = new Map<String, String>();
-    map["playerId"] = playerId;
+    map["id"] = playerId;
     return map;
   }
 
