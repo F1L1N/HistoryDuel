@@ -5,7 +5,7 @@ class OpponentIdPost {
   OpponentIdPost(this.playerId);
 
   Map toMap() {
-    var map = new Map<String, dynamic>();
+    var map = new Map<String, String>();
     map["playerId"] = playerId;
     return map;
   }

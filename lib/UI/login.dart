@@ -11,7 +11,7 @@ import 'package:history_duel/model/post/access.dart';
 import 'package:history_duel/model/post/refresh.dart';
 import 'package:history_duel/model/post/registration.dart';
 import 'package:history_duel/model/post/authentification.dart';
-import 'package:history_duel/UI/main.dart';
+import 'package:history_duel/main.dart';
 import 'package:history_duel/utils/bubble_indication_painter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';

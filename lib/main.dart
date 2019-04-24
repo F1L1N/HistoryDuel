@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:history_duel/UI/splash.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/status.dart' as status;
 import 'package:flutter/material.dart';
 import 'package:history_duel/UI/game.dart';
 import 'package:history_duel/model/post/opponentId.dart';
 import 'package:history_duel/model/profile.dart';
 import 'package:http/http.dart' as http;
 
+void main() => runApp(LaunchScreen());
 // ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
   String id;
@@ -54,9 +58,9 @@ class MainScreen extends StatelessWidget {
     final response = await http.post(url,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
-          //HttpHeaders.contentTypeHeader: 'application/json'
         },
-        body: json.encode(body)
+        //body: json.encode(body)
+        body: body
     );
     final int statusCode = response.statusCode;
     if (statusCode < 200 || statusCode > 400 || json == null) {
@@ -67,7 +71,7 @@ class MainScreen extends StatelessWidget {
 
   Future matchmaking() async {
     OpponentIdPost newPost = new OpponentIdPost(this.id);
-    String opponentId = await getOpponentIdPost(body: newPost.toMap());
+    String opponentId = await getOpponentIdPost(body:newPost.toMap());
     navigateGame(id, opponentId);
   }
 
