@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:history_duel/UI/splash.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
 import 'package:flutter/material.dart';
 import 'package:history_duel/UI/game.dart';
 import 'package:history_duel/model/post/opponentId.dart';
@@ -65,7 +63,8 @@ class MainScreen extends StatelessWidget {
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception("Error while fetching data");
     }
-    return json.decode(response.body);
+    var result = json.decode(response.body);
+    return result['opponentId'];
   }
 
   Future matchmaking() async {
