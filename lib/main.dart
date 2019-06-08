@@ -19,7 +19,6 @@ class MainScreen extends StatelessWidget {
   static String url = "http://hisduel.000webhostapp.com/matchmaker.php";
 
 // Set default configs
-
   final sizeTextBlack = const TextStyle(fontSize: 20.0, color: Colors.black);
   BuildContext context;
 
@@ -34,6 +33,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     this.context = context;
+    reconnect();
     return new Scaffold(
         appBar: new AppBar(
           title: new Text("Main Screen"),
@@ -68,7 +68,13 @@ class MainScreen extends StatelessWidget {
   }
 
   Future matchmaking() async {
-    OpponentIdPost newPost = new OpponentIdPost(this.id);
+    OpponentIdPost newPost = new OpponentIdPost(this.id, 'connect');
+    String opponentId = await getOpponentIdPost(body:newPost.toMap());
+    navigateGame(id, opponentId);
+  }
+
+  Future reconnect() async {
+    OpponentIdPost newPost = new OpponentIdPost(this.id, 'reconnect');
     String opponentId = await getOpponentIdPost(body:newPost.toMap());
     navigateGame(id, opponentId);
   }
