@@ -76,7 +76,10 @@ class MainScreen extends StatelessWidget {
   Future reconnect() async {
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'reconnect');
     String opponentId = await getOpponentIdPost(body:newPost.toMap());
-    navigateGame(id, opponentId);
+    if (opponentId != "none")
+    {
+      navigateGame(id, opponentId);
+    }
   }
 
   void navigateGame(String playerId, String opponentId){
