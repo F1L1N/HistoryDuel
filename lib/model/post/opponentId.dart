@@ -1,6 +1,7 @@
 class OpponentIdPost {
   final String playerId;
   String opponentId;
+  String opponentLogin;
   String mode;
 
   OpponentIdPost(this.playerId, this.mode);

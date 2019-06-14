@@ -13,9 +13,12 @@ class gameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new RaisedButton(
+    return new MaterialButton(
       onPressed: sendAnswer,
       child: new Text('$variant'),
+      minWidth: 300,
+      color: Colors.grey[300],
+
     );
   }
 

@@ -70,7 +70,7 @@ class MainScreen extends StatelessWidget {
   Future matchmaking() async {
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'connect');
     String opponentId = await getOpponentIdPost(body:newPost.toMap());
-    navigateGame(id, opponentId);
+    navigateGame(id, login, opponentId);
   }
 
   Future reconnect() async {
@@ -78,14 +78,14 @@ class MainScreen extends StatelessWidget {
     String opponentId = await getOpponentIdPost(body:newPost.toMap());
     if (opponentId != "none")
     {
-      navigateGame(id, opponentId);
+      navigateGame(id, login, opponentId);
     }
   }
 
-  void navigateGame(String playerId, String opponentId){
+  void navigateGame(String playerId, String login, String opponentId){
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new GameScreen(playerId, opponentId)));
+            builder: (context) => new GameScreen(playerId, login, opponentId)));
   }
 }
