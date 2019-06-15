@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:history_duel/UI/game.dart';
 import 'package:history_duel/model/post/opponentId.dart';
 import 'package:history_duel/model/profile.dart';
+import 'package:history_duel/model/opponent.dart';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(LaunchScreen());
@@ -52,7 +53,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Future<String> getOpponentIdPost({Map body}) async {
+  Future<Opponent> getOpponentIdPost({Map body}) async {
     final response = await http.post(url,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
@@ -63,29 +64,29 @@ class MainScreen extends StatelessWidget {
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception("Error while fetching data");
     }
-    var result = json.decode(response.body);
-    return result['opponentId'];
+    Opponent result = Opponent.fromJson(json.decode(response.body));
+    return result;
   }
 
   Future matchmaking() async {
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'connect');
-    String opponentId = await getOpponentIdPost(body:newPost.toMap());
-    navigateGame(id, login, opponentId);
+    Opponent opponent = await getOpponentIdPost(body:newPost.toMap());
+    navigateGame(id, opponent);
   }
 
   Future reconnect() async {
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'reconnect');
-    String opponentId = await getOpponentIdPost(body:newPost.toMap());
-    if (opponentId != "none")
+    Opponent opponent = await getOpponentIdPost(body:newPost.toMap());
+    if (opponent.opponentId != "none")
     {
-      navigateGame(id, login, opponentId);
+      navigateGame(id, opponent);
     }
   }
 
-  void navigateGame(String playerId, String login, String opponentId){
+  void navigateGame(String playerId, Opponent opponent){
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new GameScreen(playerId, login, opponentId)));
+            builder: (context) => new GameScreen(playerId, login, opponent)));
   }
 }
