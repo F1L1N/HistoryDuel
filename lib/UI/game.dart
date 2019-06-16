@@ -1,13 +1,9 @@
-import 'dart:io';
 import 'dart:async';
-import 'dart:convert';
 import 'package:avataaar_image/avataaar_image.dart';
 import 'package:flutter/material.dart';
 import 'package:history_duel/UI/custom/gameButton.dart';
-import 'package:history_duel/model/post/getQuestion.dart';
 import 'package:history_duel/model/opponent.dart';
 import 'package:history_duel/model/question.dart';
-import 'package:http/http.dart' as http;
 import 'package:history_duel/utils/gameManager.dart';
 import 'package:history_duel/model/gameStatus.dart';
 import 'package:history_duel/utils/timer.dart';
@@ -37,119 +33,142 @@ class GameScreenState extends State<GameScreen>{
 
   String gameUrl = "http://hisduel.000webhostapp.com/game.php";
   String result;
+  String endGame;
   Avataaar playerAvatar = new Avataaar.random();
   Avataaar opponentAvatar = new Avataaar.random();
   Question currentQuestion = new Question();
   bool timerStarted = false;
-  GameStatus gameStatus = GameStatus();
+  GameStatus gameStatus;
   GameManager gameManager;
 
 
   GameScreenState(String playerId) {
+    gameStatus = new GameStatus(playerMistakes: "0", opponentMistakes: "0");
+    gameStatus.result = "NEXT";
     gameManager = new GameManager(playerId);
   }
 
   // This widget is the root of your application.
    @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title:"Game",
-      home: new Scaffold(
-          body: new Container(
-            padding: const EdgeInsets.all(30.0),
-            child: new Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  new Row(
+      if (gameStatus.result != "NEXT") {
+        return MaterialApp(
+            title: "Game",
+            home: new Scaffold(
+                body: new Container(
+                    padding: const EdgeInsets.all(30.0),
+                    child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Text(gameStatus.result),
+                          new MaterialButton(
+                            child: new Text("опа"),
+                            minWidth: 300,
+                            color: Colors.blue
+                          )
+                        ]
+                    )
+                )
+            )
+        );
+      } else {
+        return MaterialApp(
+          title: "Game",
+          home: new Scaffold(
+              body: new Container(
+                padding: const EdgeInsets.all(30.0),
+                child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      new AvataaarImage(
-                        avatar: playerAvatar,
-                        errorImage: Icon(Icons.error),
-                        placeholder: CircularProgressIndicator(),
-                        width: 100.0,
+                      new Row(
+                        children: <Widget>[
+                          new AvataaarImage(
+                            avatar: playerAvatar,
+                            errorImage: Icon(Icons.error),
+                            placeholder: CircularProgressIndicator(),
+                            width: 100.0,
+                          ),
+                          new Text(widget.login),
+                          new Text('    ${gameStatus.playerMistakes}')
+                        ],
                       ),
-                      new Text(widget.login),
-                      new Text('    ${gameStatus.playerMistakes}')
-                    ],
-                  ),
-                  new Center(
-                      child: new FutureBuilder<Question>(
-                          future: runQuestionPost(),
-                          builder: (context, snapshot) {
-                            if(snapshot.connectionState == ConnectionState.done) {
-                              if(snapshot.hasError){
-                                return Text("Error");
+                      new Center(
+                          child: new FutureBuilder<Question>(
+                              future: runQuestionPost(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.hasError) {
+                                    return Text("Error");
+                                  }
+                                  return new Column(
+                                      children: <Widget>[
+                                        new Text('${snapshot.data.question}'),
+                                        new Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 30, 0, 20),
+                                            child: new Column(
+
+                                              children: <Widget>[
+                                                new GameButton(1,
+                                                    snapshot.data.variant1, () {
+                                                      sendAnswer("1");
+                                                    }),
+                                                new GameButton(2,
+                                                    snapshot.data.variant2, () {
+                                                      sendAnswer("2");
+                                                    }),
+                                                new GameButton(3,
+                                                    snapshot.data.variant3, () {
+                                                      sendAnswer("3");
+                                                    }),
+                                                new GameButton(4,
+                                                    snapshot.data.variant4, () {
+                                                      sendAnswer("4");
+                                                    }),
+                                              ],
+                                            )
+                                        ),
+                                        new GameTimer(() {
+                                          if (!answerSend) {
+                                            sendAnswer("-1");
+                                          }
+                                        }
+                                        ),
+                                      ]
+                                  );
+                                }
+                                else
+                                  return CircularProgressIndicator();
                               }
-                              return new Column(
-                                  children: <Widget>[
-                                    new Text('${snapshot.data.question}'),
-                                    new Container(
-                                        padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
-                                        child: new Column(
+                          )
 
-                                          children: <Widget>[
-                                            new GameButton(1, snapshot.data.variant1, () {sendAnswer("1");}),
-                                            new GameButton(2, snapshot.data.variant2, () {sendAnswer("2");}),
-                                            new GameButton(3, snapshot.data.variant3, () {sendAnswer("3");}),
-                                            new GameButton(4, snapshot.data.variant4, () {sendAnswer("4");}),
-                                          ],
-                                        )
-                                    ),
-                                    new GameTimer(() {
-                                      if (answerSend) {
-                                        setState(() {});
-                                      } else {
-                                        sendAnswer("-1");
-                                      }
-
-                                    }
-                                    ),
-                                  ]
-                              );
-                            }
-                            else return CircularProgressIndicator();
-                          }
-                      )
-
-                  ),
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      new Text('${gameStatus.opponentMistakes}       '),
-                      new Text(widget.opponent.opponentLogin),
-                      new AvataaarImage(
-                        avatar: opponentAvatar,
-                        errorImage: Icon(Icons.error),
-                        placeholder: CircularProgressIndicator(),
-                        width: 100.0,
                       ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          new Text('${gameStatus.opponentMistakes}       '),
+                          new Text(widget.opponent.opponentLogin),
+                          new AvataaarImage(
+                            avatar: opponentAvatar,
+                            errorImage: Icon(Icons.error),
+                            placeholder: CircularProgressIndicator(),
+                            width: 100.0,
+                          ),
 
-                    ],
-                  ),
-                ]
-            ),
-          )
+                        ],
+                      ),
+                    ]
+                ),
+              )
 
-      ),
-    );
+          ),
+        );
+      }
   }
 
 
   Future<Question> runQuestionPost() async {
-    GetQuestionPost newPost = new GetQuestionPost(
-        mode: "1"
-    );
-    final response = await http.post(gameUrl,
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
-        },
-        body: newPost.toMap()
-    );
-    final int statusCode = response.statusCode;
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data");
-    }
-
     return await gameManager.setCurrentQuestion();
   }
 

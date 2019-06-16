@@ -1,6 +1,6 @@
 class GameStatus {
-  String playerMistakes = "0";
-  String opponentMistakes = "0";
+  String playerMistakes;
+  String opponentMistakes;
   String result;
 
   GameStatus({this.playerMistakes, this.opponentMistakes});
