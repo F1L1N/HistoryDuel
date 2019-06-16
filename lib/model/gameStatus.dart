@@ -1,7 +1,7 @@
 class GameStatus {
   String playerMistakes;
   String opponentMistakes;
-  String result;
+  String result = "NEXT";
 
   GameStatus({this.playerMistakes, this.opponentMistakes});
 

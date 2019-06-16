@@ -2,6 +2,7 @@ class OpponentIdPost {
   final String playerId;
   String opponentId;
   String opponentLogin;
+  String currentQuestion;
   String mode;
 
   OpponentIdPost(this.playerId, this.mode);
