@@ -68,17 +68,10 @@ class MainScreen extends StatelessWidget {
     return result;
   }
 
-  bool matchmakingRun = false;
-
   Future matchmaking() async {
-    if (matchmakingRun) {
-      return;
-    }
-    matchmakingRun = true;
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'connect');
     Opponent opponent = await getOpponentIdPost(body:newPost.toMap());
     navigateGame(id, opponent);
-    matchmakingRun = false;
   }
 
   Future reconnect() async {

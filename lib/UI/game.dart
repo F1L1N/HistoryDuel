@@ -172,9 +172,6 @@ class GameScreenState extends State<GameScreen>{
   var answerSend = false;
 
   Future sendAnswer(String answer) async {
-    if (answerSend) {
-      return;
-    }
     answerSend = true;
     var gameStatus = await gameManager.sendAnswer(answer);
     setState(() {
