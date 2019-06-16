@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+
+class HeartBar extends StatelessWidget {
+
+  int heartNumber;
+
+  @override
+  Widget build(BuildContext context) {
+    if (heartNumber == 0) {
+      return Row(
+        children: <Widget>[
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+        ],
+
+      );
+    }
+
+    if (heartNumber == 1) {
+      return Row(
+        children: <Widget>[
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+        ],
+
+      );
+    }
+
+    if (heartNumber == 2) {
+      return Row(
+        children: <Widget>[
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+        ],
+
+      );
+    }
+
+    if (heartNumber == 3) {
+      return Row(
+        children: <Widget>[
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+        ],
+
+      );
+    }
+
+    if (heartNumber == 4) {
+      return Row(
+        children: <Widget>[
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/heart.png', width: 30, height: 30,),
+        ],
+
+      );
+    }
+
+    if (heartNumber == 5) {
+      return Row(
+        children: <Widget>[
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+          Image.asset('assets/image/brokenHeart.png', width: 30, height: 30,),
+        ],
+
+      );
+    }
+  }
+
+  HeartBar(this.heartNumber);
+}

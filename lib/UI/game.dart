@@ -6,6 +6,7 @@ import 'package:history_duel/model/opponent.dart';
 import 'package:history_duel/model/question.dart';
 import 'package:history_duel/utils/gameManager.dart';
 import 'package:history_duel/model/gameStatus.dart';
+import 'package:history_duel/UI/custom/heartBar';
 import 'package:history_duel/utils/timer.dart';
 
 class GameScreen extends StatefulWidget {
@@ -57,16 +58,11 @@ class GameScreenState extends State<GameScreen>{
             home: new Scaffold(
                 body: new Container(
                     padding: const EdgeInsets.all(30.0),
-                    child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new Text(gameStatus.result),
-                          new MaterialButton(
-                            child: new Text("опа"),
-                            minWidth: 300,
-                            color: Colors.blue
-                          )
-                        ]
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: new Center(
+                        child:
+                          new Text(gameStatus.result)
                     )
                 )
             )
@@ -81,15 +77,16 @@ class GameScreenState extends State<GameScreen>{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           new AvataaarImage(
                             avatar: playerAvatar,
                             errorImage: Icon(Icons.error),
                             placeholder: CircularProgressIndicator(),
-                            width: 100.0,
+                            width: 75.0,
                           ),
                           new Text(widget.login),
-                          new Text('    ${gameStatus.playerMistakes}')
+                          new HeartBar(int.parse(gameStatus.playerMistakes)),
                         ],
                       ),
                       new Center(
@@ -145,15 +142,15 @@ class GameScreenState extends State<GameScreen>{
 
                       ),
                       new Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new Text('${gameStatus.opponentMistakes}       '),
+                          new HeartBar(int.parse(gameStatus.opponentMistakes)),
                           new Text(widget.opponent.opponentLogin),
                           new AvataaarImage(
                             avatar: opponentAvatar,
                             errorImage: Icon(Icons.error),
                             placeholder: CircularProgressIndicator(),
-                            width: 100.0,
+                            width: 75.0,
                           ),
 
                         ],
