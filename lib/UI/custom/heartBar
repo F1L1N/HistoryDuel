@@ -6,6 +6,7 @@ class HeartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     if (heartNumber == 0) {
       return Row(
         children: <Widget>[

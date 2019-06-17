@@ -7,7 +7,7 @@ import 'package:history_duel/model/question.dart';
 import 'package:history_duel/utils/gameManager.dart';
 import 'package:history_duel/model/gameStatus.dart';
 import 'package:history_duel/UI/custom/heartBar';
-import 'package:history_duel/model/game.dart';
+import 'package:history_duel/model/gameModel.dart';
 import 'package:history_duel/utils/timer.dart';
 
 class GameScreen extends StatefulWidget {
@@ -18,11 +18,14 @@ class GameScreen extends StatefulWidget {
   GameStatus gameStatus;
   Avataaar playerAvatar;
   Avataaar opponentAvatar;
+  bool isReconnect;
 
-  GameScreen(Player player, Game game) {
+  GameScreen(Player player, Game game, bool isReconnect) {
     this.playerId = player.playerId;
     this.login = player.playerLogin;
     this.opponent = game.opponent;
+    this.gameStatus = game.gameStatus;
+    this.isReconnect = isReconnect;
 
   }
 
@@ -168,7 +171,13 @@ class GameScreenState extends State<GameScreen>{
 
 
   Future<Question> runQuestionPost() async {
-    return await gameManager.setCurrentQuestion();
+    if (widget.isReconnect) {
+      print("reconnect");
+      return await gameManager.getCurrentQuestion();
+    } else {
+      print("default");
+      return await gameManager.setCurrentQuestion();
+    }
   }
 
   var answerSend = false;

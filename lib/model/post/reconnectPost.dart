@@ -1,13 +1,13 @@
 class ReconnectPost{
   final String mode;
-  final String playerId;
+  final String id;
 
-  ReconnectPost(this.mode, this.playerId);
+  ReconnectPost(this.mode, this.id);
 
   Map toMap(){
     var map = new Map<String, dynamic>();
     map["mode"] = mode;
-    map["playerId"] = playerId;
+    map["id"] = id;
     return map;
   }
 }

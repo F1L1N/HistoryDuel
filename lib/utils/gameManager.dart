@@ -16,7 +16,7 @@ class GameManager {
         this.id = id;
     }
 
-    Future getQuestionIdPost() async {
+    Future getGameIdPost() async {
 
         GameManagerPost newPost = new GameManagerPost(
             mode: "0",
@@ -40,7 +40,7 @@ class GameManager {
 
     Future<Question> setCurrentQuestion() async {
         while (this.gameId == null) {
-            await getQuestionIdPost();
+            await getGameIdPost();
         }
 
         GameManagerPost newPost = new GameManagerPost(
@@ -64,6 +64,10 @@ class GameManager {
     }
 
     Future<Question> getCurrentQuestion() async {
+
+        while (this.gameId == null) {
+            await getGameIdPost();
+        }
 
         GameManagerPost newPost = new GameManagerPost(
             mode: "8",

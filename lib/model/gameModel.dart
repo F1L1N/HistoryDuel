@@ -8,7 +8,8 @@ class Game {
   Game(this.gameStatus, this.opponent);
 
   factory Game.fromJson(Map<String, dynamic> json) {
-    return Game(new GameStatus(playerMistakes: json['playerMistakes'], opponentMistakes: json['opponentMistakes']),
-                new Player(playerId: json['opponentId'], playerLogin: json['opponentLogin']));
+    var gameStatus = new GameStatus(playerMistakes: json['playerMistakes'], opponentMistakes: json['opponentMistakes']);
+    var player = new Player(playerId: json['opponentId'], playerLogin: json['opponentLogin']);
+    return Game(gameStatus, player);
   }
 }

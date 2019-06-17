@@ -8,7 +8,7 @@ import 'package:history_duel/model/post/opponentId.dart';
 import 'package:history_duel/model/post/reconnectPost.dart';
 import 'package:history_duel/model/profile.dart';
 import 'package:history_duel/model/opponent.dart';
-import 'package:history_duel/model/game.dart';
+import 'package:history_duel/model/gameModel.dart';
 import 'package:history_duel/model/gameStatus.dart';
 import 'package:http/http.dart' as http;
 
@@ -96,24 +96,24 @@ class MainScreen extends StatelessWidget {
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'connect');
     Player opponent = await getOpponentIdPost(body:newPost.toMap());
     navigateGame(new Player(playerId: this.id, playerLogin: this.login),
-        new Game(new GameStatus(playerMistakes: "0", opponentMistakes: "0"), opponent));
+        new Game(new GameStatus(playerMistakes: "0", opponentMistakes: "0"), opponent), false);
     matchmakingRun = false;
   }
 
   Future reconnect() async {
-    ReconnectPost newPost = new ReconnectPost(this.id, 'reconnect');
+    ReconnectPost newPost = new ReconnectPost('reconnect', this.id);
     Game game = await getGamePost(newPost.toMap());
     if (game.opponent.playerId != "none")
     {
-      navigateGame(new Player(playerId: this.id, playerLogin: this.login), game);
+      navigateGame(new Player(playerId: this.id, playerLogin: this.login), game, true);
     }
   }
 
-  void navigateGame(Player player, Game gameStatus){
+  void navigateGame(Player player, Game gameStatus, bool isReconnect){
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new GameScreen(player, gameStatus)));
+            builder: (context) => new GameScreen(player, gameStatus, isReconnect)));
   }
 
 }
