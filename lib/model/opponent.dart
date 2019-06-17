@@ -1,13 +1,13 @@
-class Opponent {
-  final String opponentId;
-  final String opponentLogin;
+class Player {
+  final String playerId;
+  final String playerLogin;
 
-  Opponent({this.opponentId, this.opponentLogin});
+  Player({this.playerId, this.playerLogin});
 
-  factory Opponent.fromJson(Map<String, dynamic> json) {
-    return Opponent(
-      opponentId: json['opponentId'],
-      opponentLogin: json['opponentLogin'],
+  factory Player.fromJson(Map<String, dynamic> json) {
+    return Player(
+      playerId: json['opponentId'],
+      playerLogin: json['opponentLogin'],
     );
   }
 }

@@ -5,8 +5,11 @@ import 'package:history_duel/UI/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:history_duel/UI/game.dart';
 import 'package:history_duel/model/post/opponentId.dart';
+import 'package:history_duel/model/post/reconnectPost.dart';
 import 'package:history_duel/model/profile.dart';
 import 'package:history_duel/model/opponent.dart';
+import 'package:history_duel/model/game.dart';
+import 'package:history_duel/model/gameStatus.dart';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(LaunchScreen());
@@ -53,7 +56,7 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-  Future<Opponent> getOpponentIdPost({Map body}) async {
+  Future<Player> getOpponentIdPost({Map body}) async {
     final response = await http.post(url,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
@@ -64,7 +67,22 @@ class MainScreen extends StatelessWidget {
     if (statusCode < 200 || statusCode > 400 || json == null) {
       throw new Exception("Error while fetching data");
     }
-    Opponent result = Opponent.fromJson(json.decode(response.body));
+    Player result = Player.fromJson(json.decode(response.body));
+    return result;
+  }
+
+  Future<Game> getGamePost(Map body) async {
+    final response = await http.post(url,
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded'
+        },
+        body: body
+    );
+    final int statusCode = response.statusCode;
+    if (statusCode < 200 || statusCode > 400 || json == null) {
+      throw new Exception("Error while fetching data");
+    }
+    Game result = Game.fromJson(json.decode(response.body));
     return result;
   }
 
@@ -76,24 +94,26 @@ class MainScreen extends StatelessWidget {
     }
     matchmakingRun = true;
     OpponentIdPost newPost = new OpponentIdPost(this.id, 'connect');
-    Opponent opponent = await getOpponentIdPost(body:newPost.toMap());
-    navigateGame(id, opponent);
+    Player opponent = await getOpponentIdPost(body:newPost.toMap());
+    navigateGame(new Player(playerId: this.id, playerLogin: this.login),
+        new Game(new GameStatus(playerMistakes: "0", opponentMistakes: "0"), opponent));
     matchmakingRun = false;
   }
 
   Future reconnect() async {
-    OpponentIdPost newPost = new OpponentIdPost(this.id, 'reconnect');
-    Opponent opponent = await getOpponentIdPost(body:newPost.toMap());
-    if (opponent.opponentId != "none")
+    ReconnectPost newPost = new ReconnectPost(this.id, 'reconnect');
+    Game game = await getGamePost(newPost.toMap());
+    if (game.opponent.playerId != "none")
     {
-      navigateGame(id, opponent);
+      navigateGame(new Player(playerId: this.id, playerLogin: this.login), game);
     }
   }
 
-  void navigateGame(String playerId, Opponent opponent){
+  void navigateGame(Player player, Game gameStatus){
     Navigator.push(
         context,
         new MaterialPageRoute(
-            builder: (context) => new GameScreen(playerId, login, opponent)));
+            builder: (context) => new GameScreen(player, gameStatus)));
   }
+
 }

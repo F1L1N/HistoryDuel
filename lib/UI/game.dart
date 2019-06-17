@@ -7,31 +7,32 @@ import 'package:history_duel/model/question.dart';
 import 'package:history_duel/utils/gameManager.dart';
 import 'package:history_duel/model/gameStatus.dart';
 import 'package:history_duel/UI/custom/heartBar';
+import 'package:history_duel/model/game.dart';
 import 'package:history_duel/utils/timer.dart';
 
 class GameScreen extends StatefulWidget {
   //GameScreen({Key key}) : super(key: key);
   String playerId;
   String login;
-  Opponent opponent;
+  Player opponent;
+  GameStatus gameStatus;
   Avataaar playerAvatar;
   Avataaar opponentAvatar;
 
-  GameScreen(String playerId, String login, Opponent opponent) {
-    this.playerId = playerId;
-    this.login = login;
-    this.opponent = opponent;
+  GameScreen(Player player, Game game) {
+    this.playerId = player.playerId;
+    this.login = player.playerLogin;
+    this.opponent = game.opponent;
+
   }
 
   @override
-  GameScreenState createState() => new GameScreenState(playerId);
+  GameScreenState createState() => new GameScreenState(playerId, gameStatus);
 }
 
 class GameScreenState extends State<GameScreen>{
 // ignore: must_be_immutable
 //class GameScreen extends StatelessWidget {
-
-
   String gameUrl = "http://hisduel.000webhostapp.com/game.php";
   String result;
   String endGame;
@@ -43,8 +44,9 @@ class GameScreenState extends State<GameScreen>{
   GameManager gameManager;
 
 
-  GameScreenState(String playerId) {
-    gameStatus = new GameStatus(playerMistakes: "0", opponentMistakes: "0");
+  GameScreenState(String playerId, GameStatus status) {
+    //gameStatus = new GameStatus(playerMistakes: "0", opponentMistakes: "0");
+    gameStatus = status;
     gameStatus.result = "NEXT";
     gameManager = new GameManager(playerId);
   }
@@ -145,7 +147,7 @@ class GameScreenState extends State<GameScreen>{
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           new HeartBar(int.parse(gameStatus.opponentMistakes)),
-                          new Text(widget.opponent.opponentLogin),
+                          new Text(widget.opponent.playerLogin),
                           new AvataaarImage(
                             avatar: opponentAvatar,
                             errorImage: Icon(Icons.error),
@@ -184,14 +186,5 @@ class GameScreenState extends State<GameScreen>{
 
   }
 
-
-
-//  void getQuestions() async {
-//    GetQuestionPost newPost = new GetQuestionPost(
-//        mode: "1"
-//    );
-//    currentQuestion = await runQuestionPost(body: newPost.toMap());
-//    currentQuestion.variant1 = "1";
-//  }
 }
 
