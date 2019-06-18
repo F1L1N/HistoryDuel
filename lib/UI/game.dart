@@ -172,10 +172,10 @@ class GameScreenState extends State<GameScreen>{
 
   Future<Question> runQuestionPost() async {
     if (widget.isReconnect) {
-      print("reconnect");
+      widget.isReconnect = false;
       return await gameManager.getCurrentQuestion();
     } else {
-      print("default");
+
       return await gameManager.setCurrentQuestion();
     }
   }
